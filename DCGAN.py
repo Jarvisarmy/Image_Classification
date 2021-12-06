@@ -55,13 +55,13 @@ def make_generator_model():
     n = IMAGE_SIZE // 4
     
     model.add(layers.Dense(n * n * 256, use_bias=False, input_shape=(LATENT_SPACE_DIM,)))
-    model.add(layers.BatchNormalization())
+    #model.add(layers.BatchNormalization())
     model.add(layers.LeakyReLU())
 
     model.add(layers.Reshape((n, n, 256)))
 
     model.add(layers.Conv2DTranspose(128, (5, 5), strides=(1, 1), padding='same', use_bias=False))
-    model.add(layers.BatchNormalization())
+    #model.add(layers.BatchNormalization())
     model.add(layers.LeakyReLU())
 
     model.add(layers.Conv2DTranspose(64, (5, 5), strides=(2, 2), padding='same', use_bias=False))
@@ -78,6 +78,10 @@ def make_discriminator_model():
     model.add(layers.LeakyReLU())
     model.add(layers.Dropout(0.3))
 
+    model.add(layers.Conv2D(64, (5, 5), strides=(2, 2), padding='same', input_shape=(IMAGE_SIZE, IMAGE_SIZE, IMAGE_CHANNELS)))
+    model.add(layers.LeakyReLU())
+    model.add(layers.Dropout(0.3))
+    
     model.add(layers.Conv2D(128, (5, 5), strides=(2, 2), padding='same'))
     model.add(layers.LeakyReLU())
     model.add(layers.Dropout(0.3))
